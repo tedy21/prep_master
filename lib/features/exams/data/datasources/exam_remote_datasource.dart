@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/network/dio_client.dart';
+import '../../../../core/firebase/firebase_service.dart';
+import '../../../../core/models/exam_section.dart';
 import '../models/mock_test_model.dart';
 
 abstract class ExamRemoteDataSource {
@@ -8,55 +12,43 @@ abstract class ExamRemoteDataSource {
 }
 
 class ExamRemoteDataSourceImpl implements ExamRemoteDataSource {
-  ExamRemoteDataSourceImpl(this.client);
+  ExamRemoteDataSourceImpl(this.firebase);
 
-  // ignore: unused_field
-  final DioClient client;
+  final FirebaseService firebase;
 
   @override
   Future<List<MockTestModel>> getMockTests(ExamType examType) async {
     try {
-      await Future<void>.delayed(const Duration(milliseconds: 300));
-      if (examType == ExamType.ielts) {
-        return const [
-          MockTestModel(
-            id: 'ielts-full-1',
-            title: 'IELTS Academic Full Mock',
-            examType: ExamType.ielts,
-            durationMinutes: 165,
-            sectionCount: 4,
-            isTimed: true,
-          ),
-          MockTestModel(
-            id: 'ielts-listening-1',
-            title: 'IELTS Listening Practice Test',
-            examType: ExamType.ielts,
-            durationMinutes: 40,
-            sectionCount: 1,
-            isTimed: true,
-          ),
-        ];
+      final snap = await firebase.firestore
+          .collection(FirestorePaths.mockTests)
+          .where('examType', isEqualTo: examType.name)
+          .get();
+
+      if (snap.docs.isNotEmpty) {
+        return snap.docs.map((doc) {
+          final d = doc.data();
+          return MockTestModel(
+            id: doc.id,
+            title: d['title'] as String? ?? 'Mock Test',
+            examType: examType,
+            durationMinutes: d['durationMinutes'] as int? ?? 60,
+            sectionCount: d['sectionCount'] as int? ?? 1,
+            isTimed: d['isTimed'] as bool? ?? true,
+            section: ExamSection.tryParse(d['section'] as String?),
+          );
+        }).toList()
+          ..sort((a, b) {
+            // Full mocks first, then section tests alphabetically.
+            if (a.isFullMock != b.isFullMock) {
+              return a.isFullMock ? -1 : 1;
+            }
+            return a.title.compareTo(b.title);
+          });
       }
-      return const [
-        MockTestModel(
-          id: 'sat-full-1',
-          title: 'SAT Full-Length Mock',
-          examType: ExamType.sat,
-          durationMinutes: 134,
-          sectionCount: 2,
-          isTimed: true,
-        ),
-        MockTestModel(
-          id: 'sat-math-1',
-          title: 'SAT Math Module Practice',
-          examType: ExamType.sat,
-          durationMinutes: 70,
-          sectionCount: 1,
-          isTimed: true,
-        ),
-      ];
-    } catch (e) {
-      throw ServerException(e.toString());
+
+      throw const ServerException('No mock tests in Firestore — run seed script');
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? 'Firestore error');
     }
   }
 }

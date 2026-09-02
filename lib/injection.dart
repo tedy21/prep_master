@@ -1,9 +1,17 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/data/firestore_quiz_datasource.dart';
+import 'core/firebase/firebase_service.dart';
 import 'core/network/dio_client.dart';
 import 'core/network/network_info.dart';
+import 'core/network/open_trivia_client.dart';
+import 'core/network/quiz_api_client.dart';
+import 'core/network/trivia_api_client.dart';
+import 'features/auth/data/datasources/auth_remote_datasource.dart';
 import 'features/college_guides/data/datasources/college_guide_local_datasource.dart';
 import 'features/college_guides/data/datasources/college_guide_remote_datasource.dart';
 import 'features/college_guides/data/repositories/college_guide_repository_impl.dart';
@@ -21,7 +29,9 @@ import 'features/practice/data/datasources/practice_remote_datasource.dart';
 import 'features/practice/data/repositories/practice_repository_impl.dart';
 import 'features/practice/domain/repositories/practice_repository.dart';
 import 'features/practice/domain/usecases/get_daily_practice.dart';
+import 'features/practice/domain/usecases/get_quiz_questions.dart';
 import 'features/practice/presentation/bloc/practice_bloc.dart';
+import 'features/quiz/presentation/bloc/quiz_session_bloc.dart';
 import 'features/progress/data/datasources/progress_local_datasource.dart';
 import 'features/progress/data/datasources/progress_remote_datasource.dart';
 import 'features/progress/data/repositories/progress_repository_impl.dart';
@@ -31,23 +41,40 @@ import 'features/progress/presentation/bloc/progress_bloc.dart';
 
 final sl = GetIt.instance;
 
-/// Registers core services and feature dependencies.
-///
-/// Run `dart run build_runner build` later if you migrate modules to
-/// `@injectable` code generation; this manual setup keeps the arch runnable now.
 Future<void> configureDependencies() async {
-  // External
   final prefs = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => prefs);
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
 
-  // Core
+  // Firebase
+  sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
+  sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  sl.registerLazySingleton<FirebaseService>(
+    () => FirebaseService(
+      firestore: sl(),
+      auth: sl(),
+    ),
+  );
+
+  // Network / free APIs
   sl.registerLazySingleton<DioClient>(() => DioClient());
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton<OpenTriviaClient>(() => OpenTriviaClient());
+  sl.registerLazySingleton<TriviaApiClient>(() => TriviaApiClient());
+  sl.registerLazySingleton<QuizApiClient>(() => QuizApiClient());
+  sl.registerLazySingleton<FirestoreQuizDataSource>(
+    () => FirestoreQuizDataSource(sl()),
+  );
+  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource(sl()));
 
-  // —— Practice ——
+  // Practice
   sl.registerLazySingleton<PracticeRemoteDataSource>(
-    () => PracticeRemoteDataSourceImpl(sl()),
+    () => PracticeRemoteDataSourceImpl(
+      firebase: sl(),
+      firestoreQuiz: sl(),
+      openTrivia: sl(),
+      triviaApi: sl(),
+    ),
   );
   sl.registerLazySingleton<PracticeLocalDataSource>(
     () => PracticeLocalDataSourceImpl(sl()),
@@ -60,9 +87,11 @@ Future<void> configureDependencies() async {
     ),
   );
   sl.registerLazySingleton(() => GetDailyPractice(sl()));
+  sl.registerLazySingleton(() => GetQuizQuestions(sl()));
   sl.registerFactory(() => PracticeBloc(getDailyPractice: sl()));
+  sl.registerFactory(() => QuizSessionBloc(getQuizQuestions: sl()));
 
-  // —— Exams (IELTS / SAT) ——
+  // Exams
   sl.registerLazySingleton<ExamRemoteDataSource>(
     () => ExamRemoteDataSourceImpl(sl()),
   );
@@ -79,7 +108,7 @@ Future<void> configureDependencies() async {
   sl.registerLazySingleton(() => GetMockTests(sl()));
   sl.registerFactory(() => ExamsBloc(getMockTests: sl()));
 
-  // —— Progress ——
+  // Progress
   sl.registerLazySingleton<ProgressRemoteDataSource>(
     () => ProgressRemoteDataSourceImpl(sl()),
   );
@@ -96,7 +125,7 @@ Future<void> configureDependencies() async {
   sl.registerLazySingleton(() => GetUserProgress(sl()));
   sl.registerFactory(() => ProgressBloc(getUserProgress: sl()));
 
-  // —— College Guides ——
+  // College guides
   sl.registerLazySingleton<CollegeGuideRemoteDataSource>(
     () => CollegeGuideRemoteDataSourceImpl(sl()),
   );

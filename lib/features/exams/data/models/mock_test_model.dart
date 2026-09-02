@@ -1,4 +1,5 @@
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../domain/entities/mock_test.dart';
 
 class MockTestModel extends MockTest {
@@ -9,6 +10,7 @@ class MockTestModel extends MockTest {
     required super.durationMinutes,
     required super.sectionCount,
     required super.isTimed,
+    super.section,
   });
 
   factory MockTestModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class MockTestModel extends MockTest {
       durationMinutes: json['durationMinutes'] as int,
       sectionCount: json['sectionCount'] as int,
       isTimed: json['isTimed'] as bool,
+      section: ExamSection.tryParse(json['section'] as String?),
     );
   }
 
@@ -29,6 +32,7 @@ class MockTestModel extends MockTest {
         'durationMinutes': durationMinutes,
         'sectionCount': sectionCount,
         'isTimed': isTimed,
+        if (section != null) 'section': section!.id,
       };
 
   MockTest toEntity() => this;

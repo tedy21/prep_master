@@ -1,4 +1,5 @@
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../domain/entities/practice_session.dart';
 
 class PracticeSessionModel extends PracticeSession {
@@ -6,17 +7,21 @@ class PracticeSessionModel extends PracticeSession {
     required super.id,
     required super.title,
     required super.examType,
-    required super.skill,
+    required super.section,
     required super.estimatedMinutes,
     required super.questionCount,
   });
 
   factory PracticeSessionModel.fromJson(Map<String, dynamic> json) {
+    final sectionId = json['section'] as String? ?? json['skill'] as String?;
     return PracticeSessionModel(
       id: json['id'] as String,
       title: json['title'] as String,
       examType: ExamType.values.byName(json['examType'] as String),
-      skill: json['skill'] as String,
+      section: ExamSection.tryParse(sectionId) ??
+          ExamSection.defaultFor(
+            ExamType.values.byName(json['examType'] as String),
+          ),
       estimatedMinutes: json['estimatedMinutes'] as int,
       questionCount: json['questionCount'] as int,
     );
@@ -26,7 +31,7 @@ class PracticeSessionModel extends PracticeSession {
         'id': id,
         'title': title,
         'examType': examType.name,
-        'skill': skill,
+        'section': section.id,
         'estimatedMinutes': estimatedMinutes,
         'questionCount': questionCount,
       };

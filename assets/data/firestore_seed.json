@@ -1,0 +1,92 @@
+{
+  "mock_tests": [
+    {
+      "id": "ielts-full-1",
+      "title": "IELTS Academic Full Mock",
+      "examType": "ielts",
+      "durationMinutes": 165,
+      "sectionCount": 4,
+      "isTimed": true
+    },
+    {
+      "id": "sat-full-1",
+      "title": "SAT Full-Length Mock",
+      "examType": "sat",
+      "durationMinutes": 134,
+      "sectionCount": 2,
+      "isTimed": true
+    }
+  ],
+  "questions": {
+    "sat": {
+      "math": [
+        {
+          "id": "sat-math-001",
+          "question": "If 3x + 5 = 20, what is the value of x?",
+          "options": ["3", "5", "7", "15"],
+          "correctIndex": 1,
+          "explanation": "3x = 15, so x = 5.",
+          "skillArea": "Algebra",
+          "difficulty": "easy"
+        },
+        {
+          "id": "sat-math-002",
+          "question": "A line has slope 2 and passes through (0, 1). What is its equation?",
+          "options": ["y = 2x + 1", "y = x + 2", "y = 2x - 1", "y = -2x + 1"],
+          "correctIndex": 0,
+          "explanation": "Point-slope with intercept 1 gives y = 2x + 1.",
+          "skillArea": "Algebra",
+          "difficulty": "easy"
+        }
+      ]
+    },
+    "ielts": {
+      "reading": [
+        {
+          "id": "ielts-read-001",
+          "question": "According to common IELTS passages, tea originally became popular in which country?",
+          "options": ["China", "Brazil", "Canada", "Egypt"],
+          "correctIndex": 0,
+          "explanation": "Historical sources attribute tea's early cultivation to China.",
+          "skillArea": "Reading",
+          "difficulty": "medium",
+          "band": "7.0"
+        }
+      ]
+    }
+  },
+  "vocabulary": {
+    "sat": [
+      {
+        "id": "sat-word-001",
+        "word": "ephemeral",
+        "meaning": "lasting for a very short time",
+        "example": "Trends on social media are often ephemeral.",
+        "frequency": "high"
+      }
+    ],
+    "ielts": [
+      {
+        "id": "ielts-word-001",
+        "word": "abundant",
+        "meaning": "existing in large quantities",
+        "example": "The region is abundant in wildlife.",
+        "frequency": "high"
+      }
+    ]
+  },
+  "college_guides": [
+    {
+      "id": "essay-personal-statement",
+      "title": "Writing a Strong Personal Statement",
+      "summary": "Structure, voice, and common pitfalls for college essays.",
+      "category": "essays",
+      "readMinutes": 12,
+      "checklistItems": [
+        "Brainstorm 3 personal stories",
+        "Draft hook + body + reflection",
+        "Get 2 peer reviews"
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../../../injection.dart';
 import '../../../college_guides/presentation/bloc/college_guides_bloc.dart';
 import '../../../college_guides/presentation/pages/college_guides_page.dart';
@@ -35,7 +36,10 @@ class _HomePageState extends State<HomePage> {
       providers: [
         BlocProvider(
           create: (_) => sl<PracticeBloc>()
-            ..add(const LoadDailyPractice(ExamType.sat)),
+            ..add(const LoadDailyPractice(
+              examType: ExamType.sat,
+              section: ExamSection.math,
+            )),
         ),
         BlocProvider(
           create: (_) =>

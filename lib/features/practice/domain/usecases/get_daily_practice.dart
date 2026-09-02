@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entities/practice_session.dart';
 import '../repositories/practice_repository.dart';
@@ -17,15 +18,22 @@ class GetDailyPractice
   Future<Either<Failure, PracticeSession>> call(
     GetDailyPracticeParams params,
   ) {
-    return _repository.getDailyPractice(params.examType);
+    return _repository.getDailyPractice(
+      examType: params.examType,
+      section: params.section,
+    );
   }
 }
 
 class GetDailyPracticeParams extends Equatable {
-  const GetDailyPracticeParams({required this.examType});
+  const GetDailyPracticeParams({
+    required this.examType,
+    required this.section,
+  });
 
   final ExamType examType;
+  final ExamSection section;
 
   @override
-  List<Object?> get props => [examType];
+  List<Object?> get props => [examType, section];
 }

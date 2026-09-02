@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/network/dio_client.dart';
+import '../../../../core/firebase/firebase_service.dart';
 import '../models/college_guide_model.dart';
 
 abstract class CollegeGuideRemoteDataSource {
@@ -8,10 +11,9 @@ abstract class CollegeGuideRemoteDataSource {
 }
 
 class CollegeGuideRemoteDataSourceImpl implements CollegeGuideRemoteDataSource {
-  CollegeGuideRemoteDataSourceImpl(this.client);
+  CollegeGuideRemoteDataSourceImpl(this.firebase);
 
-  // ignore: unused_field
-  final DioClient client;
+  final FirebaseService firebase;
 
   static const _seed = <CollegeGuideModel>[
     CollegeGuideModel(
@@ -80,11 +82,35 @@ class CollegeGuideRemoteDataSourceImpl implements CollegeGuideRemoteDataSource {
   @override
   Future<List<CollegeGuideModel>> getGuides({GuideCategory? category}) async {
     try {
-      await Future<void>.delayed(const Duration(milliseconds: 250));
+      Query<Map<String, dynamic>> query =
+          firebase.firestore.collection(FirestorePaths.collegeGuides);
+      if (category != null) {
+        query = query.where('category', isEqualTo: category.name);
+      }
+      final snap = await query.get();
+
+      if (snap.docs.isNotEmpty) {
+        return snap.docs.map((doc) {
+          final d = doc.data();
+          return CollegeGuideModel(
+            id: doc.id,
+            title: d['title'] as String? ?? '',
+            summary: d['summary'] as String? ?? '',
+            category: GuideCategory.values.byName(
+              d['category'] as String? ?? GuideCategory.essays.name,
+            ),
+            readMinutes: d['readMinutes'] as int? ?? 5,
+            checklistItems: (d['checklistItems'] as List<dynamic>? ?? [])
+                .map((e) => e.toString())
+                .toList(),
+          );
+        }).toList();
+      }
+
       if (category == null) return _seed;
       return _seed.where((g) => g.category == category).toList();
-    } catch (e) {
-      throw ServerException(e.toString());
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? 'Firestore error');
     }
   }
 }

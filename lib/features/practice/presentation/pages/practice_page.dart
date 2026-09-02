@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../../../core/widgets/app_views.dart';
+import '../../../../core/widgets/exam_section_picker.dart';
+import '../../../quiz/domain/entities/quiz_session_args.dart';
+import '../../../quiz/presentation/pages/quiz_session_page.dart';
 import '../bloc/practice_bloc.dart';
 
 class PracticePage extends StatelessWidget {
@@ -19,7 +23,10 @@ class PracticePage extends StatelessWidget {
           return AppErrorView(
             message: state.message,
             onRetry: () => context.read<PracticeBloc>().add(
-                  const LoadDailyPractice(ExamType.sat),
+                  LoadDailyPractice(
+                    examType: ExamType.sat,
+                    section: ExamSection.math,
+                  ),
                 ),
           );
         }
@@ -34,7 +41,7 @@ class PracticePage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '${s.skill} · ${s.estimatedMinutes} min · ${s.questionCount} questions',
+                '${s.section.label} · ${s.estimatedMinutes} min · ${s.questionCount} questions',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 24),
@@ -45,14 +52,40 @@ class PracticePage extends StatelessWidget {
                 ],
                 selected: {s.examType},
                 onSelectionChanged: (set) {
-                  context
-                      .read<PracticeBloc>()
-                      .add(LoadDailyPractice(set.first));
+                  final examType = set.first;
+                  context.read<PracticeBloc>().add(
+                        LoadDailyPractice(
+                          examType: examType,
+                          section: ExamSection.defaultFor(examType),
+                        ),
+                      );
+                },
+              ),
+              const SizedBox(height: 24),
+              ExamSectionPicker(
+                examType: s.examType,
+                selected: s.section,
+                onSelected: (section) {
+                  if (section == s.section) return;
+                  context.read<PracticeBloc>().add(
+                        LoadDailyPractice(
+                          examType: s.examType,
+                          section: section,
+                        ),
+                      );
                 },
               ),
               const SizedBox(height: 32),
               FilledButton.icon(
-                onPressed: () {},
+                onPressed: () => QuizSessionPage.open(
+                  context,
+                  QuizSessionArgs(
+                    title: s.title,
+                    examType: s.examType,
+                    section: s.section,
+                    questionCount: s.questionCount,
+                  ),
+                ),
                 icon: const Icon(Icons.play_arrow),
                 label: const Text('Start session'),
               ),

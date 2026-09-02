@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../domain/entities/practice_session.dart';
 import '../../domain/usecases/get_daily_practice.dart';
 
@@ -23,7 +24,10 @@ class PracticeBloc extends Bloc<PracticeEvent, PracticeState> {
   ) async {
     emit(const PracticeLoading());
     final result = await _getDailyPractice(
-      GetDailyPracticeParams(examType: event.examType),
+      GetDailyPracticeParams(
+        examType: event.examType,
+        section: event.section,
+      ),
     );
     result.fold(
       (failure) => emit(PracticeError(failure.message)),

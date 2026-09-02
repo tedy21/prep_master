@@ -8,10 +8,14 @@ abstract class PracticeEvent extends Equatable {
 }
 
 class LoadDailyPractice extends PracticeEvent {
-  const LoadDailyPractice(this.examType);
+  const LoadDailyPractice({
+    required this.examType,
+    required this.section,
+  });
 
   final ExamType examType;
+  final ExamSection section;
 
   @override
-  List<Object?> get props => [examType];
+  List<Object?> get props => [examType, section];
 }

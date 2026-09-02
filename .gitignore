@@ -46,3 +46,13 @@ app.*.map.json
 
 # Android local SDK path
 **/local.properties
+
+# Firebase / Node
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+functions/node_modules/
+serviceAccount*.json
+android/key.properties
+*.jks
+*.keystore

@@ -1,31 +1,49 @@
-/// API endpoint paths (relative to base URL).
-abstract final class ApiEndpoints {
-  static const String baseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'https://api.prepmaster.app/v1',
-  );
+/// Firestore collection / document path helpers.
+abstract final class FirestorePaths {
+  static const users = 'users';
+  static const questions = 'questions';
+  static const quizQuestions = 'quiz_questions';
+  static const contentMeta = 'content_meta';
+  static const leaderboard = 'leaderboard';
+  static const vocabulary = 'vocabulary';
+  static const collegeGuides = 'college_guides';
+  static const mockTests = 'mock_tests';
 
-  // Auth
-  static const String login = '/auth/login';
-  static const String register = '/auth/register';
-  static const String refreshToken = '/auth/refresh';
+  static const contentCatalog = '$contentMeta/catalog';
 
-  // Practice & exams
-  static const String dailyPractice = '/practice/daily';
-  static const String quizzes = '/practice/quizzes';
-  static const String mockTests = '/exams/mocks';
-  static const String submitSession = '/practice/sessions';
+  static String user(String uid) => '$users/$uid';
+  static String userProgress(String uid) => '$users/$uid/progress/summary';
+  static String userSessions(String uid) => '$users/$uid/sessionHistory';
+  static String userSession(String uid, String sessionId) =>
+      '$users/$uid/sessionHistory/$sessionId';
 
-  // Progress
-  static const String progress = '/progress';
-  static const String errorLog = '/progress/errors';
-  static const String achievements = '/progress/achievements';
+  static String ieltsListening(String id) => '$questions/ielts/listening/$id';
+  static String ieltsReading(String id) => '$questions/ielts/reading/$id';
+  static String ieltsWriting(String id) => '$questions/ielts/writing/$id';
+  static String ieltsSpeaking(String id) => '$questions/ielts/speaking/$id';
+  static String satMath(String id) => '$questions/sat/math/$id';
+  static String satReadingWriting(String id) =>
+      '$questions/sat/readingWriting/$id';
 
-  // Vocabulary
-  static const String vocabulary = '/vocabulary';
-  static const String flashcards = '/vocabulary/flashcards';
+  static String vocabIelts(String id) => '$vocabulary/ielts/words/$id';
+  static String vocabSat(String id) => '$vocabulary/sat/words/$id';
 
-  // College guides
-  static const String collegeGuides = '/college/guides';
-  static const String collegeChecklist = '/college/checklist';
+  static String globalLeaderboardEntry(String uid) =>
+      '$leaderboard/global/entries/$uid';
+}
+
+/// Free public trivia API endpoints (no Firebase).
+abstract final class FreeApiEndpoints {
+  static const openTriviaBase = 'https://opentdb.com';
+  static const openTriviaQuiz = '$openTriviaBase/api.php';
+  static const openTriviaToken = '$openTriviaBase/api_token.php';
+
+  static const triviaApiBase = 'https://the-trivia-api.com/v2';
+  static const triviaApiQuestions = '$triviaApiBase/questions';
+
+  static const quizApiBase = 'https://quizapi.io/api/v1';
+  static const quizApiQuestions = '$quizApiBase/questions';
+
+  /// Pass at build time: `--dart-define=QUIZAPI_KEY=your_key`
+  static const quizApiKey = String.fromEnvironment('QUIZAPI_KEY');
 }

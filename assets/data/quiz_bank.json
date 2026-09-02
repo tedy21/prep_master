@@ -1,0 +1,383 @@
+{
+  "sat": {
+    "math": [
+      {
+        "id": "sat-math-001",
+        "question": "If 3x + 5 = 20, what is the value of x?",
+        "options": ["3", "5", "7", "15"],
+        "correctIndex": 1,
+        "explanation": "Subtract 5 from both sides: 3x = 15. Divide by 3: x = 5.",
+        "skillArea": "Algebra",
+        "difficulty": "easy"
+      },
+      {
+        "id": "sat-math-002",
+        "question": "A line has slope 2 and y-intercept 1. What is its equation?",
+        "options": ["y = 2x + 1", "y = x + 2", "y = 2x - 1", "y = -2x + 1"],
+        "correctIndex": 0,
+        "explanation": "Slope-intercept form is y = mx + b, so y = 2x + 1.",
+        "skillArea": "Algebra",
+        "difficulty": "easy"
+      },
+      {
+        "id": "sat-math-003",
+        "question": "What is the value of 2³ × 2²?",
+        "options": ["16", "32", "64", "128"],
+        "correctIndex": 1,
+        "explanation": "2³ × 2² = 2⁵ = 32.",
+        "skillArea": "Advanced Math",
+        "difficulty": "medium"
+      },
+      {
+        "id": "sat-math-004",
+        "question": "A rectangle has length 8 and width 5. What is its area?",
+        "options": ["13", "26", "40", "80"],
+        "correctIndex": 2,
+        "explanation": "Area = length × width = 8 × 5 = 40.",
+        "skillArea": "Geometry",
+        "difficulty": "easy"
+      },
+      {
+        "id": "sat-math-005",
+        "question": "If f(x) = x² - 4, what is f(3)?",
+        "options": ["5", "9", "13", "-1"],
+        "correctIndex": 0,
+        "explanation": "f(3) = 3² - 4 = 9 - 4 = 5.",
+        "skillArea": "Algebra",
+        "difficulty": "medium"
+      }
+    ],
+    "english": [
+      {
+        "id": "sat-rw-001",
+        "question": "Choose the sentence with correct punctuation:",
+        "options": [
+          "However we decided to wait.",
+          "However, we decided to wait.",
+          "However; we decided to wait.",
+          "However: we decided to wait."
+        ],
+        "correctIndex": 1,
+        "explanation": "Introductory adverbs like 'However' are followed by a comma.",
+        "skillArea": "Grammar",
+        "difficulty": "medium"
+      },
+      {
+        "id": "sat-rw-002",
+        "question": "The word 'ubiquitous' most nearly means:",
+        "options": ["Rare", "Present everywhere", "Ancient", "Temporary"],
+        "correctIndex": 1,
+        "explanation": "Ubiquitous means found everywhere or very common.",
+        "skillArea": "Vocabulary",
+        "difficulty": "medium"
+      },
+      {
+        "id": "sat-rw-003",
+        "question": "Which revision best combines the two sentences?\n'She finished her essay. She submitted it early.'",
+        "options": [
+          "She finished her essay, she submitted it early.",
+          "She finished her essay and submitted it early.",
+          "She finished her essay but submitted it early.",
+          "She finished her essay, submitting it early she."
+        ],
+        "correctIndex": 1,
+        "explanation": "Combining with 'and' creates a clear, grammatically correct sentence.",
+        "skillArea": "Writing",
+        "difficulty": "easy"
+      },
+      {
+        "id": "sat-rw-004",
+        "question": "The author's primary purpose in a passage about climate policy is most likely to:",
+        "options": [
+          "Entertain with fictional stories",
+          "Argue for a specific policy approach",
+          "Describe a personal vacation",
+          "List unrelated historical dates"
+        ],
+        "correctIndex": 1,
+        "explanation": "Policy passages typically aim to persuade or argue for an approach.",
+        "skillArea": "Reading",
+        "difficulty": "medium"
+      },
+      {
+        "id": "sat-rw-005",
+        "question": "Choose the word that best completes the sentence:\n'The scientist's findings were so ___ that they changed the field.'",
+        "options": ["mundane", "groundbreaking", "trivial", "predictable"],
+        "correctIndex": 1,
+        "explanation": "Groundbreaking means innovative and significantly new.",
+        "skillArea": "Vocabulary",
+        "difficulty": "medium"
+      }
+    ]
+  },
+  "ielts": {
+    "listening": [
+      {
+        "id": "listen-set-001",
+        "title": "Section 1: Appointment Booking",
+        "transcript": "Receptionist: Good morning, City Dental Clinic. How can I help you?\nCustomer: Hi, I have an appointment on Monday morning, but I need to reschedule.\nReceptionist: Of course. We have Tuesday afternoon at 2:30, or Wednesday evening at 6:00.\nCustomer: Tuesday afternoon works perfectly for me.\nReceptionist: Great, I've moved your appointment to Tuesday at 2:30 PM.",
+        "questions": [
+          {
+            "id": "ielts-listen-001",
+            "question": "The customer wants to change the appointment to:",
+            "options": ["Monday morning", "Tuesday afternoon", "Wednesday evening", "Friday morning"],
+            "correctIndex": 1,
+            "explanation": "The customer confirms Tuesday afternoon at 2:30.",
+            "skillArea": "Listening",
+            "difficulty": "easy"
+          }
+        ]
+      },
+      {
+        "id": "listen-set-002",
+        "title": "Section 2: Museum Visit",
+        "transcript": "Guide: Welcome to the National History Museum. The main exhibition hall closes at 5 PM.\nVisitor: That's helpful. Is the café still open after that?\nGuide: The café closes at 4:30 PM, so you'll want to visit before then.\nVisitor: Perfect, we'll grab coffee before the last hour.",
+        "questions": [
+          {
+            "id": "ielts-listen-002",
+            "question": "The café closes at:",
+            "options": ["4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM"],
+            "correctIndex": 1,
+            "explanation": "The guide states the café closes at 4:30 PM.",
+            "skillArea": "Listening",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "listen-set-003",
+        "title": "Section 4: Urban Farming Lecture",
+        "transcript": "Professor: Today we'll discuss rooftop gardens in modern cities. Critics argue they are too expensive, but our research shows they significantly reduce urban heat and improve local air quality. They are not merely decorative — many grow vegetables that supply neighbourhood markets.",
+        "questions": [
+          {
+            "id": "ielts-listen-003",
+            "question": "The speaker's main point is that rooftop gardens:",
+            "options": [
+              "Are too expensive for cities",
+              "Reduce heat and improve air quality",
+              "Only grow decorative plants",
+              "Require no maintenance"
+            ],
+            "correctIndex": 1,
+            "explanation": "The lecture highlights environmental benefits of rooftop gardens.",
+            "skillArea": "Listening",
+            "difficulty": "medium"
+          }
+        ]
+      }
+    ],
+    "reading": [
+      {
+        "id": "read-passage-001",
+        "title": "Passage 1: The History of Tea",
+        "passage": "Tea is one of the world's oldest and most widely consumed beverages. Historical records suggest that tea cultivation began in China over 4,000 years ago, where it was initially used for medicinal purposes before becoming a daily drink. By the 17th century, tea had spread to Europe through trade routes, transforming social customs in Britain and beyond.\n\nToday, tea remains culturally significant across Asia, the Middle East, and the West. Scientists continue to study its health benefits, including antioxidants that may help mitigate inflammation. Despite the rise of coffee culture, global tea consumption continues to grow steadily.",
+        "questions": [
+          {
+            "id": "ielts-read-001",
+            "question": "According to the passage, tea cultivation began primarily in which country?",
+            "options": ["China", "India", "England", "Japan"],
+            "correctIndex": 0,
+            "explanation": "The passage states tea cultivation began in China.",
+            "skillArea": "Reading",
+            "difficulty": "medium"
+          },
+          {
+            "id": "ielts-read-002",
+            "question": "The word 'mitigate' in the passage most likely means to:",
+            "options": ["Increase", "Reduce the severity of", "Ignore", "Celebrate"],
+            "correctIndex": 1,
+            "explanation": "Mitigate means to make something less severe or harmful.",
+            "skillArea": "Vocabulary",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "read-passage-002",
+        "title": "Passage 2: Renewable Energy",
+        "passage": "The global shift toward renewable energy has accelerated over the past decade. Solar and wind power now account for a growing share of electricity generation in many countries. Governments have introduced subsidies and tax incentives to encourage investment, while private companies race to develop more efficient battery storage.\n\nHowever, experts remain cautiously optimistic about the transition. While the trend is clearly positive, challenges remain — including grid infrastructure, intermittency of supply, and the environmental cost of manufacturing solar panels. A balanced approach that acknowledges both progress and risks is essential for sustainable policy.",
+        "questions": [
+          {
+            "id": "ielts-read-003",
+            "question": "Which heading best fits the first paragraph?",
+            "options": [
+              "The Decline of Fossil Fuels",
+              "A Shift Toward Sustainable Power",
+              "Urban Population Trends",
+              "Ancient Energy Sources"
+            ],
+            "correctIndex": 1,
+            "explanation": "The paragraph describes the growth of solar and wind energy.",
+            "skillArea": "Reading",
+            "difficulty": "medium"
+          },
+          {
+            "id": "ielts-read-004",
+            "question": "The author's tone in the second paragraph is best described as:",
+            "options": [
+              "Rejecting all new ideas",
+              "Cautiously optimistic",
+              "Purely emotional",
+              "Completely neutral"
+            ],
+            "correctIndex": 1,
+            "explanation": "The author supports change while noting remaining challenges.",
+            "skillArea": "Reading",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "ielts-gram-001",
+        "question": "Choose the correct form: 'Neither the students nor the teacher ___ ready.'",
+        "options": ["were", "was", "are", "have been"],
+        "correctIndex": 1,
+        "explanation": "With 'neither...nor', the verb agrees with the nearer subject (teacher → was).",
+        "skillArea": "Grammar",
+        "difficulty": "hard"
+      }
+    ],
+    "writing": [
+      {
+        "id": "ielts-write-001",
+        "question": "For IELTS Writing Task 2, which introduction is most effective?",
+        "options": [
+          "Copy the question words exactly",
+          "Paraphrase the topic and state your position",
+          "Start with a personal anecdote only",
+          "List all arguments in the introduction"
+        ],
+        "correctIndex": 1,
+        "explanation": "A strong Task 2 intro paraphrases the prompt and presents a clear thesis.",
+        "skillArea": "Writing",
+        "difficulty": "medium"
+      },
+      {
+        "id": "ielts-write-002",
+        "question": "In Task 1 (graph description), you should NOT:",
+        "options": [
+          "Compare key trends",
+          "Give an overview",
+          "State your personal opinion",
+          "Use precise data where relevant"
+        ],
+        "correctIndex": 2,
+        "explanation": "Task 1 is objective — opinions are not required or appropriate.",
+        "skillArea": "Writing",
+        "difficulty": "easy"
+      },
+      {
+        "id": "ielts-write-003",
+        "question": "Which linking phrase best shows contrast between two ideas?",
+        "options": ["Furthermore", "On the other hand", "In addition", "Similarly"],
+        "correctIndex": 1,
+        "explanation": "'On the other hand' signals a contrasting point.",
+        "skillArea": "Writing",
+        "difficulty": "easy"
+      },
+      {
+        "id": "ielts-write-004",
+        "question": "A body paragraph should ideally:",
+        "options": [
+          "Introduce multiple unrelated topics",
+          "Present one main idea with support and examples",
+          "Repeat the introduction verbatim",
+          "Avoid any examples"
+        ],
+        "correctIndex": 1,
+        "explanation": "Each body paragraph develops one central idea with evidence.",
+        "skillArea": "Writing",
+        "difficulty": "medium"
+      }
+    ],
+    "speaking": [
+      {
+        "id": "ielts-speak-001",
+        "question": "In Speaking Part 1, the best strategy when asked about hobbies is to:",
+        "options": [
+          "Give one-word answers",
+          "Expand with reasons and examples",
+          "Change the topic immediately",
+          "Memorise a scripted speech"
+        ],
+        "correctIndex": 1,
+        "explanation": "Part 1 rewards natural, extended answers with brief examples.",
+        "skillArea": "Speaking",
+        "difficulty": "easy"
+      },
+      {
+        "id": "ielts-speak-002",
+        "question": "For Part 2 (cue card), you are given time to:",
+        "options": [
+          "Leave the room",
+          "Make brief notes",
+          "Ask the examiner questions",
+          "Read a prepared essay"
+        ],
+        "correctIndex": 1,
+        "explanation": "You get 1 minute to prepare notes before speaking for 1–2 minutes.",
+        "skillArea": "Speaking",
+        "difficulty": "easy"
+      },
+      {
+        "id": "ielts-speak-003",
+        "question": "In Part 3, when discussing abstract topics, you should:",
+        "options": [
+          "Avoid giving opinions",
+          "Analyse and justify your views",
+          "Only use simple vocabulary",
+          "Repeat Part 1 answers"
+        ],
+        "correctIndex": 1,
+        "explanation": "Part 3 tests ability to discuss abstract ideas with justification.",
+        "skillArea": "Speaking",
+        "difficulty": "medium"
+      },
+      {
+        "id": "ielts-speak-004",
+        "question": "If you don't understand a question, it is acceptable to:",
+        "options": [
+          "Stay silent",
+          "Politely ask for clarification",
+          "Guess randomly",
+          "End the test"
+        ],
+        "correctIndex": 1,
+        "explanation": "Asking for clarification is professional and expected.",
+        "skillArea": "Speaking",
+        "difficulty": "easy"
+      }
+    ]
+  },
+  "mock_tests": {
+    "sat-full-1": [
+      "sat-math-001", "sat-math-002", "sat-math-003",
+      "sat-rw-001", "sat-rw-002", "sat-rw-003",
+      "sat-math-004", "sat-math-005"
+    ],
+    "sat-math-1": [
+      "sat-math-001", "sat-math-002", "sat-math-003", "sat-math-004", "sat-math-005"
+    ],
+    "sat-english-1": [
+      "sat-rw-001", "sat-rw-002", "sat-rw-003", "sat-rw-004", "sat-rw-005"
+    ],
+    "ielts-full-1": [
+      "ielts-listen-001", "ielts-listen-002",
+      "ielts-read-001", "ielts-read-002", "ielts-read-003",
+      "ielts-write-001", "ielts-write-002",
+      "ielts-speak-001", "ielts-speak-002"
+    ],
+    "ielts-listening-1": [
+      "ielts-listen-001", "ielts-listen-002", "ielts-listen-003"
+    ],
+    "ielts-reading-1": [
+      "ielts-read-001", "ielts-read-002", "ielts-read-003", "ielts-read-004", "ielts-gram-001"
+    ],
+    "ielts-writing-1": [
+      "ielts-write-001", "ielts-write-002", "ielts-write-003", "ielts-write-004"
+    ],
+    "ielts-speaking-1": [
+      "ielts-speak-001", "ielts-speak-002", "ielts-speak-003", "ielts-speak-004"
+    ]
+  }
+}
