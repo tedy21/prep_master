@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/models/exam_section.dart';
 import '../../../../core/models/quiz_question.dart';
 import '../../../practice/domain/usecases/get_quiz_questions.dart';
 import '../../domain/entities/quiz_session_args.dart';
@@ -43,6 +44,8 @@ class QuizSessionBloc extends Bloc<QuizSessionEvent, QuizSessionState> {
         emit(QuizSessionActive(
           title: event.args.title,
           examType: event.args.examType,
+          section: event.args.section,
+          mockTestId: event.args.mockTestId,
           questions: questions,
           currentIndex: 0,
           selectedOption: null,
@@ -71,6 +74,8 @@ class QuizSessionBloc extends Bloc<QuizSessionEvent, QuizSessionState> {
       emit(QuizSessionFinished(
         title: state.title,
         examType: state.examType,
+        section: state.section,
+        mockTestId: state.mockTestId,
         questions: state.questions,
         answers: answers,
       ));

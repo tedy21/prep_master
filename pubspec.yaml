@@ -60,6 +60,16 @@ dev_dependencies:
   hive_generator: ^2.0.1
   injectable_generator: ^2.6.0
   freezed: ^2.5.7
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/images/app_icon.png
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/images/app_icon.png
+  remove_alpha_ios: true
+  min_sdk_android: 24
 
 flutter:
   uses-material-design: true

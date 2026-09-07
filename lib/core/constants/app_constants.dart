@@ -11,7 +11,7 @@ abstract final class AppConstants {
   static const int dailyPracticeMaxMinutes = 30;
 }
 
-/// Supported exam tracks.
+///  tracks.
 enum ExamType {
   ielts,
   sat,

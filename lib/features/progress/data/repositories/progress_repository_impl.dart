@@ -35,4 +35,24 @@ class ProgressRepositoryImpl implements ProgressRepository {
       return Left(mapExceptionToFailure(e));
     }
   }
+
+  @override
+  Future<Either<Failure, UserProgress>> recordQuizCompletion({
+    required int correctCount,
+    required int totalCount,
+  }) async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return const Left(NetworkFailure());
+      }
+      final updated = await remote.recordQuizCompletion(
+        correctCount: correctCount,
+        totalCount: totalCount,
+      );
+      await local.cacheProgress(updated);
+      return Right(updated.toEntity());
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
 }

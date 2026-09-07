@@ -12,6 +12,9 @@ import 'core/network/open_trivia_client.dart';
 import 'core/network/quiz_api_client.dart';
 import 'core/network/trivia_api_client.dart';
 import 'features/auth/data/datasources/auth_remote_datasource.dart';
+import 'features/auth/data/repositories/auth_repository_impl.dart';
+import 'features/auth/domain/repositories/auth_repository.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/college_guides/data/datasources/college_guide_local_datasource.dart';
 import 'features/college_guides/data/datasources/college_guide_remote_datasource.dart';
 import 'features/college_guides/data/repositories/college_guide_repository_impl.dart';
@@ -31,6 +34,10 @@ import 'features/practice/domain/repositories/practice_repository.dart';
 import 'features/practice/domain/usecases/get_daily_practice.dart';
 import 'features/practice/domain/usecases/get_quiz_questions.dart';
 import 'features/practice/presentation/bloc/practice_bloc.dart';
+import 'features/quiz/data/datasources/quiz_session_remote_datasource.dart';
+import 'features/quiz/data/repositories/quiz_session_repository_impl.dart';
+import 'features/quiz/domain/repositories/quiz_session_repository.dart';
+import 'features/quiz/domain/usecases/record_quiz_session.dart';
 import 'features/quiz/presentation/bloc/quiz_session_bloc.dart';
 import 'features/progress/data/datasources/progress_local_datasource.dart';
 import 'features/progress/data/datasources/progress_remote_datasource.dart';
@@ -38,6 +45,7 @@ import 'features/progress/data/repositories/progress_repository_impl.dart';
 import 'features/progress/domain/repositories/progress_repository.dart';
 import 'features/progress/domain/usecases/get_user_progress.dart';
 import 'features/progress/presentation/bloc/progress_bloc.dart';
+import 'features/settings/presentation/cubit/theme_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -66,6 +74,19 @@ Future<void> configureDependencies() async {
     () => FirestoreQuizDataSource(sl()),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource(sl()));
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(sl()),
+  );
+  sl.registerFactory(() => AuthBloc(authRepository: sl()));
+  sl.registerLazySingleton(() => ThemeCubit(sl()));
+
+  // Quiz sessions (history)
+  sl.registerLazySingleton<QuizSessionRemoteDataSource>(
+    () => QuizSessionRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<QuizSessionRepository>(
+    () => QuizSessionRepositoryImpl(remote: sl()),
+  );
 
   // Practice
   sl.registerLazySingleton<PracticeRemoteDataSource>(
@@ -123,6 +144,10 @@ Future<void> configureDependencies() async {
     ),
   );
   sl.registerLazySingleton(() => GetUserProgress(sl()));
+  sl.registerLazySingleton(() => RecordQuizSession(
+        sessionRepository: sl(),
+        progressRepository: sl(),
+      ));
   sl.registerFactory(() => ProgressBloc(getUserProgress: sl()));
 
   // College guides

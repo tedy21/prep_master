@@ -1,15 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../injection.dart';
+import '../../../progress/presentation/bloc/progress_bloc.dart';
+import '../../domain/usecases/record_quiz_session.dart';
 import '../bloc/quiz_session_bloc.dart';
 
-class QuizResultPage extends StatelessWidget {
+class QuizResultPage extends StatefulWidget {
   const QuizResultPage({super.key, required this.result});
 
   final QuizSessionFinished result;
 
   @override
+  State<QuizResultPage> createState() => _QuizResultPageState();
+}
+
+class _QuizResultPageState extends State<QuizResultPage> {
+  bool _saving = true;
+  String? _saveError;
+  int? _xpEarned;
+
+  @override
+  void initState() {
+    super.initState();
+    _persistResult();
+  }
+
+  Future<void> _persistResult() async {
+    final result = widget.result;
+    final sessionId = DateTime.now().millisecondsSinceEpoch.toString();
+    final recordResult = await sl<RecordQuizSession>()(
+      RecordQuizSessionParams(
+        sessionId: sessionId,
+        title: result.title,
+        examType: result.examType,
+        section: result.section,
+        mockTestId: result.mockTestId,
+        score: result.score,
+        totalQuestions: result.questions.length,
+      ),
+    );
+
+    if (!mounted) return;
+
+    recordResult.fold(
+      (failure) => setState(() {
+        _saving = false;
+        _saveError = failure.message;
+      }),
+      (progress) {
+        setState(() {
+          _saving = false;
+          _xpEarned = 20 + result.score * 10;
+        });
+        // Refresh progress tab if bloc is available above in tree.
+        try {
+          context.read<ProgressBloc>().add(const LoadUserProgress());
+        } catch (_) {}
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final result = widget.result;
     final score = result.score;
     final total = result.questions.length;
 
@@ -35,6 +90,36 @@ class QuizResultPage extends StatelessWidget {
             style: theme.textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: 12),
+          if (_saving)
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+                SizedBox(width: 10),
+                Text('Saving progress…'),
+              ],
+            )
+          else if (_saveError != null)
+            Text(
+              'Could not save progress: $_saveError',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+              textAlign: TextAlign.center,
+            )
+          else if (_xpEarned != null)
+            Text(
+              '+$_xpEarned XP earned',
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: Colors.green.shade700,
+              ),
+              textAlign: TextAlign.center,
+            ),
           const SizedBox(height: 24),
           Text('Review', style: theme.textTheme.titleMedium),
           const SizedBox(height: 12),

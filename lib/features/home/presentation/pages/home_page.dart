@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/models/exam_section.dart';
 import '../../../../injection.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../college_guides/presentation/bloc/college_guides_bloc.dart';
 import '../../../college_guides/presentation/pages/college_guides_page.dart';
 import '../../../exams/presentation/bloc/exams_bloc.dart';
@@ -12,6 +13,7 @@ import '../../../practice/presentation/bloc/practice_bloc.dart';
 import '../../../practice/presentation/pages/practice_page.dart';
 import '../../../progress/presentation/bloc/progress_bloc.dart';
 import '../../../progress/presentation/pages/progress_page.dart';
+import '../../../settings/presentation/pages/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,6 +31,17 @@ class _HomePageState extends State<HomePage> {
     'College Guides',
     'Progress',
   ];
+
+  void _openSettings() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => BlocProvider.value(
+          value: context.read<AuthBloc>(),
+          child: const SettingsPage(),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +68,62 @@ class _HomePageState extends State<HomePage> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: Text(_titles[_index])),
+        appBar: AppBar(
+          title: Text(_titles[_index]),
+        ),
+        drawer: Drawer(
+          child: SafeArea(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundColor: Colors.white.withValues(alpha: 0.2),
+                        child: const Icon(
+                          Icons.school_outlined,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        AppConstants.appName,
+                        style:
+                            Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                      ),
+                      Text(
+                        'Exam prep made simple',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.white70,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings_outlined),
+                  title: const Text('Settings'),
+                  subtitle: const Text('Profile, theme & more'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _openSettings();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
         body: IndexedStack(
           index: _index,
           children: const [

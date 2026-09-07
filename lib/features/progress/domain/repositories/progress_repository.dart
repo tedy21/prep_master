@@ -5,4 +5,9 @@ import '../entities/user_progress.dart';
 
 abstract class ProgressRepository {
   Future<Either<Failure, UserProgress>> getUserProgress();
+
+  Future<Either<Failure, UserProgress>> recordQuizCompletion({
+    required int correctCount,
+    required int totalCount,
+  });
 }
