@@ -137,9 +137,143 @@ exports.generateProgressInsights = onCall(
   },
 );
 
+/**
+ * Callable: evaluateSpeakingAttempt
+ * Auth required. Scores an IELTS speaking answer with Gemini.
+ * Stores attempt at users/{uid}/speakingAttempts/{autoId}.
+ */
+exports.evaluateSpeakingAttempt = onCall(
+  { secrets: [geminiApiKey], timeoutSeconds: 90, memory: '512MiB' },
+  async (request) => {
+    if (!request.auth?.uid) {
+      throw new HttpsError('unauthenticated', 'Sign in required');
+    }
+
+    const uid = request.auth.uid;
+    const data = request.data || {};
+    const part = String(data.part || 'part1');
+    const promptText = String(data.prompt || '').slice(0, 800);
+    const cueBullets = asStringArray(data.cueBullets).slice(0, 8);
+    const transcript = String(data.transcript || '').slice(0, 4000);
+    const durationSec = Number(data.durationSec) || 0;
+    const audioBase64 = typeof data.audioBase64 === 'string' ? data.audioBase64 : '';
+    const mimeType = String(data.mimeType || 'audio/m4a').slice(0, 64);
+
+    if (!promptText.trim()) {
+      throw new HttpsError('invalid-argument', 'prompt is required');
+    }
+    if (!transcript.trim() && !audioBase64) {
+      throw new HttpsError(
+        'invalid-argument',
+        'Provide a transcript and/or audioBase64',
+      );
+    }
+    // Keep callable payload reasonable (~6MB text ceiling for base64 audio).
+    if (audioBase64.length > 6_000_000) {
+      throw new HttpsError('invalid-argument', 'Audio payload too large');
+    }
+
+    const apiKey = geminiApiKey.value();
+    if (!apiKey) {
+      throw new HttpsError('failed-precondition', 'GEMINI_API_KEY is not set');
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({
+      model: MODEL,
+      generationConfig: {
+        temperature: 0.45,
+        responseMimeType: 'application/json',
+      },
+    });
+
+    const parts = [
+      { text: buildSpeakingEvalPrompt({ part, promptText, cueBullets, transcript, durationSec }) },
+    ];
+    if (audioBase64) {
+      parts.push({
+        inlineData: {
+          mimeType: mimeType.startsWith('audio/') ? mimeType : 'audio/m4a',
+          data: audioBase64,
+        },
+      });
+    }
+
+    let parsed;
+    try {
+      const result = await model.generateContent(parts);
+      const text = result.response.text();
+      parsed = JSON.parse(text);
+    } catch (err) {
+      console.error('Gemini evaluateSpeakingAttempt failed', err);
+      throw new HttpsError('internal', 'Speaking evaluation failed');
+    }
+
+    const feedback = normalizeSpeakingFeedback(parsed, transcript);
+    const attemptRef = db.collection(`users/${uid}/speakingAttempts`).doc();
+    const stored = {
+      ...feedback,
+      part,
+      prompt: promptText,
+      cueBullets,
+      durationSec,
+      model: MODEL,
+      createdAt: FieldValue.serverTimestamp(),
+    };
+    await attemptRef.set(stored);
+
+    return {
+      ...feedback,
+      id: attemptRef.id,
+      part,
+      prompt: promptText,
+      cueBullets,
+      durationSec,
+      model: MODEL,
+      createdAt: new Date().toISOString(),
+      isFallback: false,
+    };
+  },
+);
+
 function asStringArray(value) {
   if (!Array.isArray(value)) return [];
   return value.map((v) => String(v)).filter(Boolean);
+}
+
+function clampBand(value, fallback = 5.0) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  const clamped = Math.min(9, Math.max(0, n));
+  return Math.round(clamped * 2) / 2;
+}
+
+function criterionFrom(raw, fallbackScore = 5.0) {
+  const obj = raw && typeof raw === 'object' ? raw : {};
+  return {
+    score: clampBand(obj.score, fallbackScore),
+    notes: asStringArray(obj.notes).slice(0, 4),
+  };
+}
+
+function normalizeSpeakingFeedback(parsed, fallbackTranscript) {
+  const grammar = criterionFrom(parsed.grammar);
+  const vocabulary = criterionFrom(parsed.vocabulary);
+  const fluency = criterionFrom(parsed.fluency);
+  const pronunciation = criterionFrom(parsed.pronunciation);
+  const avg =
+    (grammar.score + vocabulary.score + fluency.score + pronunciation.score) / 4;
+  return {
+    transcript: String(parsed.transcript || fallbackTranscript || '').slice(0, 4000),
+    grammar,
+    vocabulary,
+    fluency,
+    pronunciation,
+    bandEstimate: clampBand(parsed.bandEstimate, avg),
+    feedback: String(parsed.feedback || '').slice(0, 800),
+    improvedAnswer: String(parsed.improvedAnswer || '').slice(0, 1200),
+    tips: asStringArray(parsed.tips).slice(0, 5),
+  };
 }
 
 function buildPrompt(stats) {
@@ -153,4 +287,30 @@ Be specific to the skill names provided. No markdown. No extra keys.
 
 Learner stats:
 ${JSON.stringify(stats)}`;
+}
+
+function buildSpeakingEvalPrompt({ part, promptText, cueBullets, transcript, durationSec }) {
+  return `You are an IELTS Speaking examiner coach for PrepMaster.
+Evaluate the candidate's answer for ${part}.
+Return ONLY valid JSON with keys:
+transcript (cleaned transcript string),
+grammar ({ score: number 0-9 half bands allowed, notes: string[] }),
+vocabulary ({ score, notes }),
+fluency ({ score, notes }),
+pronunciation ({ score, notes }),
+bandEstimate (overall 0-9 half band),
+feedback (2-4 sentences of personal coaching),
+improvedAnswer (a stronger model answer the learner can study),
+tips (string array of concrete next steps).
+
+Rules:
+- Be fair and specific; reference the prompt.
+- If audio is attached, use it for pronunciation/fluency; otherwise rely on transcript.
+- Prefer half-band scores (e.g. 5.5, 6.0, 6.5).
+- No markdown. No extra keys.
+
+Prompt: ${promptText}
+Cue bullets: ${JSON.stringify(cueBullets)}
+On-device transcript: ${transcript || '(none)'}
+Duration seconds: ${durationSec}`;
 }
