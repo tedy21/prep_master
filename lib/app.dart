@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/widgets/auth_gate.dart';
+import 'features/settings/presentation/cubit/adaptive_practice_cubit.dart';
 import 'features/settings/presentation/cubit/theme_cubit.dart';
 import 'injection.dart';
 
@@ -13,8 +14,11 @@ class PrepMasterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<ThemeCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<ThemeCubit>()),
+        BlocProvider(create: (_) => sl<AdaptivePracticeCubit>()),
+      ],
       child: ScreenUtilInit(
         designSize: const Size(390, 844),
         minTextAdapt: true,

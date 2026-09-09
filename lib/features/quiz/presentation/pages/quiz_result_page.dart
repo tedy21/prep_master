@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../injection.dart';
 import '../../../progress/presentation/bloc/progress_bloc.dart';
+import '../../domain/entities/quiz_question_outcome.dart';
 import '../../domain/usecases/record_quiz_session.dart';
 import '../bloc/quiz_session_bloc.dart';
 
@@ -29,6 +30,22 @@ class _QuizResultPageState extends State<QuizResultPage> {
   Future<void> _persistResult() async {
     final result = widget.result;
     final sessionId = DateTime.now().millisecondsSinceEpoch.toString();
+    final outcomes = <QuizQuestionOutcome>[];
+    for (var i = 0; i < result.questions.length; i++) {
+      final q = result.questions[i];
+      final chosen = result.answers[i];
+      outcomes.add(
+        QuizQuestionOutcome(
+          questionId: q.id,
+          skillArea: q.skillArea ?? q.category,
+          difficulty: q.difficulty,
+          isCorrect: chosen == q.correctAnswer,
+          selectedAnswer: chosen,
+          correctAnswer: q.correctAnswer,
+        ),
+      );
+    }
+
     final recordResult = await sl<RecordQuizSession>()(
       RecordQuizSessionParams(
         sessionId: sessionId,
@@ -38,6 +55,7 @@ class _QuizResultPageState extends State<QuizResultPage> {
         mockTestId: result.mockTestId,
         score: result.score,
         totalQuestions: result.questions.length,
+        questionOutcomes: outcomes,
       ),
     );
 
@@ -90,6 +108,16 @@ class _QuizResultPageState extends State<QuizResultPage> {
             style: theme.textTheme.titleMedium,
             textAlign: TextAlign.center,
           ),
+          if (result.timedOut) ...[
+            const SizedBox(height: 8),
+            Text(
+              'Time expired — answers were auto-submitted.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
           const SizedBox(height: 12),
           if (_saving)
             const Row(
@@ -120,6 +148,28 @@ class _QuizResultPageState extends State<QuizResultPage> {
               ),
               textAlign: TextAlign.center,
             ),
+          if (result.topicBreakdown.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text(
+              'Topics this session',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: result.topicBreakdown.entries.map((e) {
+                final pct = e.value.total == 0
+                    ? 0
+                    : (e.value.correct / e.value.total * 100).round();
+                return Chip(
+                  label: Text(
+                    '${e.key}: $pct% (${e.value.correct}/${e.value.total})',
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
           const SizedBox(height: 24),
           Text('Review', style: theme.textTheme.titleMedium),
           const SizedBox(height: 12),

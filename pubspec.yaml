@@ -34,6 +34,7 @@ dependencies:
   cloud_firestore: ^5.4.0
   firebase_auth: ^5.3.0
   firebase_analytics: ^11.3.0
+  cloud_functions: ^5.1.0
 
   # LOCAL STORAGE
   hive: ^2.2.3
@@ -44,6 +45,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   shimmer: ^3.0.0
   confetti: ^0.7.0
+  fl_chart: ^0.69.0
 
   # UTILITIES
   intl: ^0.19.0

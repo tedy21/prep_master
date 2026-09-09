@@ -67,98 +67,117 @@ class _HomePageState extends State<HomePage> {
               sl<ProgressBloc>()..add(const LoadUserProgress()),
         ),
       ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(_titles[_index]),
-        ),
-        drawer: Drawer(
-          child: SafeArea(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.white.withValues(alpha: 0.2),
-                        child: const Icon(
-                          Icons.school_outlined,
-                          color: Colors.white,
-                          size: 30,
-                        ),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(_titles[_index]),
+            ),
+            drawer: Drawer(
+              child: SafeArea(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        AppConstants.appName,
-                        style:
-                            Theme.of(context).textTheme.titleLarge?.copyWith(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CircleAvatar(
+                            radius: 28,
+                            backgroundColor:
+                                Colors.white.withValues(alpha: 0.2),
+                            child: const Icon(
+                              Icons.school_outlined,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            AppConstants.appName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                 ),
+                          ),
+                          Text(
+                            'Exam prep made simple',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Colors.white70,
+                                ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Exam prep made simple',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Colors.white70,
-                            ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.settings_outlined),
+                      title: const Text('Settings'),
+                      subtitle: const Text('Profile, theme & more'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _openSettings();
+                      },
+                    ),
+                  ],
                 ),
-                ListTile(
-                  leading: const Icon(Icons.settings_outlined),
-                  title: const Text('Settings'),
-                  subtitle: const Text('Profile, theme & more'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    _openSettings();
-                  },
+              ),
+            ),
+            body: IndexedStack(
+              index: _index,
+              children: [
+                const PracticePage(),
+                const ExamsPage(),
+                const CollegeGuidesPage(),
+                ProgressPage(
+                  onStartPractice: () => setState(() => _index = 0),
                 ),
               ],
             ),
-          ),
-        ),
-        body: IndexedStack(
-          index: _index,
-          children: const [
-            PracticePage(),
-            ExamsPage(),
-            CollegeGuidesPage(),
-            ProgressPage(),
-          ],
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _index,
-          onDestinationSelected: (i) => setState(() => _index = i),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.fitness_center_outlined),
-              selectedIcon: Icon(Icons.fitness_center),
-              label: 'Practice',
+            bottomNavigationBar: NavigationBar(
+              selectedIndex: _index,
+              onDestinationSelected: (i) {
+                setState(() => _index = i);
+                if (i == 3) {
+                  context
+                      .read<ProgressBloc>()
+                      .add(const LoadUserProgress());
+                }
+              },
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.fitness_center_outlined),
+                  selectedIcon: Icon(Icons.fitness_center),
+                  label: 'Practice',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.quiz_outlined),
+                  selectedIcon: Icon(Icons.quiz),
+                  label: 'Exams',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.school_outlined),
+                  selectedIcon: Icon(Icons.school),
+                  label: 'College',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.insights_outlined),
+                  selectedIcon: Icon(Icons.insights),
+                  label: 'Progress',
+                ),
+              ],
             ),
-            NavigationDestination(
-              icon: Icon(Icons.quiz_outlined),
-              selectedIcon: Icon(Icons.quiz),
-              label: 'Exams',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.school_outlined),
-              selectedIcon: Icon(Icons.school),
-              label: 'College',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.insights_outlined),
-              selectedIcon: Icon(Icons.insights),
-              label: 'Progress',
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

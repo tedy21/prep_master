@@ -84,7 +84,7 @@ const MOCK_TESTS = [
     sectionCount: 1,
     isTimed: true,
     section: 'listening',
-    questionIds: ['ielts-listen-001', 'ielts-listen-002', 'ielts-listen-003'],
+    questionIds: ['ielts-listen-001', 'ielts-listen-002', 'ielts-listen-003', 'ielts-listen-004', 'ielts-listen-005'],
   },
   {
     id: 'ielts-reading-1',
@@ -108,8 +108,8 @@ const MOCK_TESTS = [
     isTimed: true,
     section: 'writing',
     questionIds: [
-      'ielts-write-001', 'ielts-write-002',
-      'ielts-write-003', 'ielts-write-004',
+      'ielts-write-001', 'ielts-write-002', 'ielts-write-003', 'ielts-write-005',
+      'ielts-write-007', 'ielts-write-014', 'ielts-write-016', 'ielts-write-018',
     ],
   },
   {

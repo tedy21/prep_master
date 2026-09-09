@@ -13,6 +13,7 @@ abstract final class FirestorePaths {
 
   static String user(String uid) => '$users/$uid';
   static String userProgress(String uid) => '$users/$uid/progress/summary';
+  static String userAiInsights(String uid) => '$users/$uid/progress/aiInsights';
   static String userSessions(String uid) => '$users/$uid/sessionHistory';
   static String userSession(String uid, String sessionId) =>
       '$users/$uid/sessionHistory/$sessionId';

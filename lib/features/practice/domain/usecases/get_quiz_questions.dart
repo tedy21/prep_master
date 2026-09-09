@@ -23,6 +23,7 @@ class GetQuizQuestions
       section: params.section,
       amount: params.amount,
       mockTestId: params.mockTestId,
+      difficulty: params.difficulty,
     );
   }
 }
@@ -33,13 +34,16 @@ class GetQuizQuestionsParams extends Equatable {
     this.section,
     this.amount = 10,
     this.mockTestId,
+    this.difficulty,
   });
 
   final ExamType examType;
   final ExamSection? section;
   final int amount;
   final String? mockTestId;
+  final String? difficulty;
 
   @override
-  List<Object?> get props => [examType, section, amount, mockTestId];
+  List<Object?> get props =>
+      [examType, section, amount, mockTestId, difficulty];
 }

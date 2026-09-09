@@ -100,6 +100,8 @@ class _ExamsPageState extends State<ExamsPage> {
     final questionCount = test.section?.defaultQuestionCount ??
         (test.examType == ExamType.sat ? 8 : 6);
 
+    final timed = test.isTimed || test.durationMinutes > 0;
+
     QuizSessionPage.open(
       context,
       QuizSessionArgs(
@@ -108,6 +110,8 @@ class _ExamsPageState extends State<ExamsPage> {
         section: test.section,
         questionCount: questionCount,
         mockTestId: test.id,
+        adaptive: false,
+        timeLimitMinutes: timed ? test.durationMinutes : null,
       ),
     );
   }

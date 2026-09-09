@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Persists and emits the user's preferred [ThemeMode].
 class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit(this._prefs) : super(_read(_prefs));
 

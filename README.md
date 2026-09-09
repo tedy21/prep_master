@@ -11,6 +11,7 @@ Backend: **Firebase** (Auth, Firestore, Storage, Cloud Functions). Quiz content 
 - IELTS Reading passages & Listening transcripts
 - College application guides
 - Progress tracking synced to Firestore
+- AI study coach (Gemini) with visual skill breakdown & accuracy trends
 
 ## Firebase project
 
@@ -50,11 +51,18 @@ The seed script reads `assets/data/quiz_bank.json` and uploads to:
 | `content_meta/catalog` | Content version & counts |
 | `vocabulary`, `college_guides` | Other curated content |
 
-7. (Optional) Deploy Cloud Functions:
+7. Deploy Cloud Functions (includes AI coach + leaderboard sync):
 
 ```bash
+cd functions && npm install
+# One-time: create a key at https://aistudio.google.com/apikey
+firebase functions:secrets:set GEMINI_API_KEY
 firebase deploy --only functions
 ```
+
+The callable `generateProgressInsights` writes coaching JSON to
+`users/{uid}/progress/aiInsights`. Without the secret, Progress still shows
+local fallback tips.
 
 ### Updating content (no app release)
 

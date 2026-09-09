@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /// Thin accessors for Firebase SDKs registered in DI.
@@ -9,11 +10,14 @@ class FirebaseService {
   FirebaseService({
     FirebaseFirestore? firestore,
     FirebaseAuth? auth,
+    FirebaseFunctions? functions,
   })  : firestore = firestore ?? FirebaseFirestore.instance,
-        auth = auth ?? FirebaseAuth.instance;
+        auth = auth ?? FirebaseAuth.instance,
+        functions = functions ?? FirebaseFunctions.instance;
 
   final FirebaseFirestore firestore;
   final FirebaseAuth auth;
+  final FirebaseFunctions functions;
 
   User? get currentUser => auth.currentUser;
 

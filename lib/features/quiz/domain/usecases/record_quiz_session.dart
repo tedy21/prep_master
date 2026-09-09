@@ -7,10 +7,12 @@ import '../../../../core/models/exam_section.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../progress/domain/entities/user_progress.dart';
 import '../../../progress/domain/repositories/progress_repository.dart';
+import '../entities/quiz_question_outcome.dart';
 import '../entities/quiz_session_record.dart';
 import '../repositories/quiz_session_repository.dart';
 
-class RecordQuizSession implements UseCase<UserProgress, RecordQuizSessionParams> {
+class RecordQuizSession
+    implements UseCase<UserProgress, RecordQuizSessionParams> {
   RecordQuizSession({
     required this.sessionRepository,
     required this.progressRepository,
@@ -32,6 +34,7 @@ class RecordQuizSession implements UseCase<UserProgress, RecordQuizSessionParams
       score: params.score,
       totalQuestions: params.totalQuestions,
       completedAt: DateTime.now(),
+      questionOutcomes: params.questionOutcomes,
     );
 
     final sessionResult = await sessionRepository.saveSession(session);
@@ -40,6 +43,7 @@ class RecordQuizSession implements UseCase<UserProgress, RecordQuizSessionParams
       (_) => progressRepository.recordQuizCompletion(
         correctCount: params.score,
         totalCount: params.totalQuestions,
+        skillDeltas: session.skillDeltas,
       ),
     );
   }
@@ -54,6 +58,7 @@ class RecordQuizSessionParams extends Equatable {
     this.mockTestId,
     required this.score,
     required this.totalQuestions,
+    this.questionOutcomes = const [],
   });
 
   final String sessionId;
@@ -63,8 +68,17 @@ class RecordQuizSessionParams extends Equatable {
   final String? mockTestId;
   final int score;
   final int totalQuestions;
+  final List<QuizQuestionOutcome> questionOutcomes;
 
   @override
-  List<Object?> get props =>
-      [sessionId, title, examType, section, mockTestId, score, totalQuestions];
+  List<Object?> get props => [
+        sessionId,
+        title,
+        examType,
+        section,
+        mockTestId,
+        score,
+        totalQuestions,
+        questionOutcomes,
+      ];
 }

@@ -17,18 +17,20 @@ class QuizSessionRepositoryImpl implements QuizSessionRepository {
     QuizSessionRecord session,
   ) async {
     try {
-      final model = QuizSessionRecordModel(
-        id: session.id,
-        title: session.title,
-        examType: session.examType,
-        section: session.section,
-        mockTestId: session.mockTestId,
-        score: session.score,
-        totalQuestions: session.totalQuestions,
-        completedAt: session.completedAt,
-      );
-      await remote.saveSession(model);
+      await remote.saveSession(QuizSessionRecordModel.fromEntity(session));
       return Right(session);
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<QuizSessionRecord>>> getRecentSessions({
+    int limit = 20,
+  }) async {
+    try {
+      final models = await remote.getRecentSessions(limit: limit);
+      return Right(models.map((m) => m.toEntity()).toList());
     } catch (e) {
       return Left(mapExceptionToFailure(e));
     }

@@ -16,12 +16,23 @@ class ProgressLoading extends ProgressState {
 }
 
 class ProgressLoaded extends ProgressState {
-  const ProgressLoaded(this.progress);
+  const ProgressLoaded(this.dashboard, {this.aiRefreshing = false});
 
-  final UserProgress progress;
+  final ProgressDashboard dashboard;
+  final bool aiRefreshing;
+
+  ProgressLoaded copyWith({
+    ProgressDashboard? dashboard,
+    bool? aiRefreshing,
+  }) {
+    return ProgressLoaded(
+      dashboard ?? this.dashboard,
+      aiRefreshing: aiRefreshing ?? this.aiRefreshing,
+    );
+  }
 
   @override
-  List<Object?> get props => [progress];
+  List<Object?> get props => [dashboard, aiRefreshing];
 }
 
 class ProgressError extends ProgressState {

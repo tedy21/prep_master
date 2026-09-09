@@ -87,7 +87,7 @@ extension ExamSectionX on ExamSection {
       case ExamSection.reading:
         return 'Academic passages and comprehension';
       case ExamSection.writing:
-        return 'Essay structure, task response, and coherence';
+        return 'Academic Task 1 reports and Task 2 essays';
       case ExamSection.speaking:
         return 'Fluency, pronunciation, and interview skills';
     }
@@ -143,7 +143,7 @@ extension ExamSectionX on ExamSection {
         return 6;
       case ExamSection.writing:
       case ExamSection.speaking:
-        return 5;
+        return 8;
     }
   }
 

@@ -17,5 +17,12 @@ abstract class PracticeRepository {
     ExamSection? section,
     int amount,
     String? mockTestId,
+    String? difficulty,
+  });
+
+  Future<Either<Failure, Map<String, List<QuizQuestion>>>> getAdaptivePools({
+    required ExamType examType,
+    required ExamSection section,
+    int perBucket,
   });
 }

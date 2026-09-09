@@ -56,33 +56,25 @@ class PracticeRepositoryImpl implements PracticeRepository {
     ExamSection? section,
     int amount = 10,
     String? mockTestId,
+    String? difficulty,
   }) async {
     try {
-      if (await networkInfo.isConnected) {
-        try {
-          final questions = await remote.getQuizQuestions(
-            examType: examType,
-            section: section,
-            amount: amount,
-            mockTestId: mockTestId,
-          );
-          if (questions.isNotEmpty) {
-            await local.cacheQuizQuestions(
-              examType: examType,
-              section: section,
-              mockTestId: mockTestId,
-              questions: questions,
-            );
-            return Right(questions);
-          }
-        } catch (_) {
-          return _loadOffline(
-            examType: examType,
-            section: section,
-            amount: amount,
-            mockTestId: mockTestId,
-          );
-        }
+      // PracticeRemote also reads bundled quiz_bank.json (works offline).
+      final questions = await remote.getQuizQuestions(
+        examType: examType,
+        section: section,
+        amount: amount,
+        mockTestId: mockTestId,
+        difficulty: difficulty ?? 'medium',
+      );
+      if (questions.isNotEmpty) {
+        await local.cacheQuizQuestions(
+          examType: examType,
+          section: section,
+          mockTestId: mockTestId,
+          questions: questions,
+        );
+        return Right(questions);
       }
 
       return _loadOffline(
@@ -90,6 +82,56 @@ class PracticeRepositoryImpl implements PracticeRepository {
         section: section,
         amount: amount,
         mockTestId: mockTestId,
+      );
+    } catch (e) {
+      final offline = await _loadOffline(
+        examType: examType,
+        section: section,
+        amount: amount,
+        mockTestId: mockTestId,
+      );
+      if (offline.isRight()) return offline;
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, List<QuizQuestion>>>> getAdaptivePools({
+    required ExamType examType,
+    required ExamSection section,
+    int perBucket = 12,
+  }) async {
+    try {
+      final pools = await remote.getAdaptivePools(
+        examType: examType,
+        section: section,
+        perBucket: perBucket,
+      );
+      var total = pools.values.fold<int>(0, (n, list) => n + list.length);
+      if (total > 0) return Right(pools);
+
+      // Offline / empty remote: rebuild pools from any cached section questions.
+      final cached = await local.getCachedQuizQuestions(
+        examType: examType,
+        section: section,
+      );
+      if (cached != null && cached.isNotEmpty) {
+        final grouped = <String, List<QuizQuestion>>{
+          'easy': [],
+          'medium': [],
+          'hard': [],
+        };
+        for (final q in cached) {
+          final key = (q.difficulty).trim().toLowerCase();
+          final bucket = key == 'easy' || key == 'hard' ? key : 'medium';
+          grouped[bucket] = [...grouped[bucket]!, q];
+        }
+        total = grouped.values.fold<int>(0, (n, list) => n + list.length);
+        if (total > 0) return Right(grouped);
+      }
+
+      return const Left(
+        CacheFailure('No adaptive questions available for this section yet.'),
       );
     } catch (e) {
       return Left(mapExceptionToFailure(e));

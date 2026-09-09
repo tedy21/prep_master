@@ -7,6 +7,8 @@ import '../models/quiz_session_record_model.dart';
 
 abstract class QuizSessionRemoteDataSource {
   Future<void> saveSession(QuizSessionRecordModel session);
+
+  Future<List<QuizSessionRecordModel>> getRecentSessions({int limit = 20});
 }
 
 class QuizSessionRemoteDataSourceImpl implements QuizSessionRemoteDataSource {
@@ -26,6 +28,28 @@ class QuizSessionRemoteDataSourceImpl implements QuizSessionRemoteDataSource {
         ...session.toFirestore(),
         'completedAt': FieldValue.serverTimestamp(),
       });
+    } on FirebaseException catch (e) {
+      throw ServerException(e.message ?? 'Firestore error');
+    }
+  }
+
+  @override
+  Future<List<QuizSessionRecordModel>> getRecentSessions({
+    int limit = 20,
+  }) async {
+    final uid = firebase.uid;
+    if (uid == null) return const [];
+
+    try {
+      final snap = await firebase.firestore
+          .collection(FirestorePaths.userSessions(uid))
+          .orderBy('completedAt', descending: true)
+          .limit(limit)
+          .get();
+
+      return snap.docs
+          .map((d) => QuizSessionRecordModel.fromFirestore(d.id, d.data()))
+          .toList();
     } on FirebaseException catch (e) {
       throw ServerException(e.message ?? 'Firestore error');
     }

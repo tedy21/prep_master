@@ -28,3 +28,7 @@ class SelectAnswer extends QuizSessionEvent {
 class NextQuestion extends QuizSessionEvent {
   const NextQuestion();
 }
+
+class ForceFinishQuiz extends QuizSessionEvent {
+  const ForceFinishQuiz();
+}

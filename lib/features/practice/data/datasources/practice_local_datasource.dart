@@ -41,7 +41,7 @@ class PracticeLocalDataSourceImpl implements PracticeLocalDataSource {
     ExamSection? section,
     String? mockTestId,
   ) =>
-      'quiz_cache_${type.name}_${section?.id ?? 'all'}_${mockTestId ?? 'daily'}';
+      'quiz_cache_v2_${type.name}_${section?.id ?? 'all'}_${mockTestId ?? 'daily'}';
 
   @override
   Future<PracticeSessionModel?> getCachedDailyPractice(

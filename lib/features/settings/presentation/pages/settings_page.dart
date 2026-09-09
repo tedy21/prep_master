@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../cubit/adaptive_practice_cubit.dart';
 import '../cubit/theme_cubit.dart';
 import 'about_page.dart';
 import 'appearance_page.dart';
 import 'profile_page.dart';
 
-/// Settings hub — each item opens its own screen.
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
@@ -73,20 +73,43 @@ class SettingsPage extends StatelessWidget {
           const SizedBox(height: 8),
           Card(
             clipBehavior: Clip.antiAlias,
-            child: BlocBuilder<ThemeCubit, ThemeMode>(
-              builder: (context, mode) {
-                return ListTile(
-                  leading: Icon(_themeIcon(mode)),
-                  title: const Text('Appearance'),
-                  subtitle: Text(_themeLabel(mode)),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => const AppearancePage(),
-                    ),
-                  ),
-                );
-              },
+            child: Column(
+              children: [
+                BlocBuilder<ThemeCubit, ThemeMode>(
+                  builder: (context, mode) {
+                    return ListTile(
+                      leading: Icon(_themeIcon(mode)),
+                      title: const Text('Appearance'),
+                      subtitle: Text(_themeLabel(mode)),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const AppearancePage(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(height: 1),
+                BlocBuilder<AdaptivePracticeCubit, bool>(
+                  builder: (context, enabled) {
+                    return SwitchListTile(
+                      secondary: Icon(
+                        Icons.auto_graph,
+                        color: theme.colorScheme.primary,
+                      ),
+                      title: const Text('Adaptive practice'),
+                      subtitle: const Text(
+                        'Start from your level, then get harder or easier after each answer',
+                      ),
+                      value: enabled,
+                      onChanged: (value) => context
+                          .read<AdaptivePracticeCubit>()
+                          .setEnabled(value),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 24),

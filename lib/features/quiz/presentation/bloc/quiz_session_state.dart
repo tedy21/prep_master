@@ -34,6 +34,10 @@ class QuizSessionActive extends QuizSessionState {
     required this.currentIndex,
     required this.selectedOption,
     required this.answers,
+    required this.targetCount,
+    this.adaptive = false,
+    this.currentDifficulty,
+    this.timeLimitMinutes,
   });
 
   final String title;
@@ -45,22 +49,42 @@ class QuizSessionActive extends QuizSessionState {
   final String? selectedOption;
   final List<String?> answers;
 
+  final int targetCount;
+  final bool adaptive;
+  final String? currentDifficulty;
+  final int? timeLimitMinutes;
+
   QuizQuestion get currentQuestion => questions[currentIndex];
 
+  int get displayTotal => adaptive ? targetCount : questions.length;
+
+  bool get isLastPlanned => currentIndex >= targetCount - 1;
+
   QuizSessionActive copyWith({
+    List<QuizQuestion>? questions,
     int? currentIndex,
     String? selectedOption,
     List<String?>? answers,
+    int? targetCount,
+    bool? adaptive,
+    String? currentDifficulty,
+    int? timeLimitMinutes,
+    bool clearSelected = false,
   }) {
     return QuizSessionActive(
       title: title,
       examType: examType,
       section: section,
       mockTestId: mockTestId,
-      questions: questions,
+      questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
-      selectedOption: selectedOption,
+      selectedOption:
+          clearSelected ? null : (selectedOption ?? this.selectedOption),
       answers: answers ?? this.answers,
+      targetCount: targetCount ?? this.targetCount,
+      adaptive: adaptive ?? this.adaptive,
+      currentDifficulty: currentDifficulty ?? this.currentDifficulty,
+      timeLimitMinutes: timeLimitMinutes ?? this.timeLimitMinutes,
     );
   }
 
@@ -74,6 +98,10 @@ class QuizSessionActive extends QuizSessionState {
         currentIndex,
         selectedOption,
         answers,
+        targetCount,
+        adaptive,
+        currentDifficulty,
+        timeLimitMinutes,
       ];
 }
 
@@ -85,6 +113,7 @@ class QuizSessionFinished extends QuizSessionState {
     this.mockTestId,
     required this.questions,
     required this.answers,
+    this.timedOut = false,
   });
 
   final String title;
@@ -93,6 +122,7 @@ class QuizSessionFinished extends QuizSessionState {
   final String? mockTestId;
   final List<QuizQuestion> questions;
   final List<String?> answers;
+  final bool timedOut;
 
   int get score {
     var correct = 0;
@@ -104,7 +134,22 @@ class QuizSessionFinished extends QuizSessionState {
 
   double get percent => questions.isEmpty ? 0 : score / questions.length * 100;
 
+  Map<String, ({int correct, int total})> get topicBreakdown {
+    final map = <String, ({int correct, int total})>{};
+    for (var i = 0; i < questions.length; i++) {
+      final skill = (questions[i].skillArea ?? questions[i].category).trim();
+      if (skill.isEmpty) continue;
+      final prev = map[skill] ?? (correct: 0, total: 0);
+      final ok = answers[i] == questions[i].correctAnswer;
+      map[skill] = (
+        correct: prev.correct + (ok ? 1 : 0),
+        total: prev.total + 1,
+      );
+    }
+    return map;
+  }
+
   @override
   List<Object?> get props =>
-      [title, examType, section, mockTestId, questions, answers];
+      [title, examType, section, mockTestId, questions, answers, timedOut];
 }

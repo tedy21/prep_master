@@ -162,6 +162,34 @@
             "explanation": "The lecture highlights environmental benefits of rooftop gardens.",
             "skillArea": "Listening",
             "difficulty": "medium"
+          },
+          {
+            "id": "ielts-listen-004",
+            "question": "According to the lecture, critics mainly argue that rooftop gardens:",
+            "options": [
+              "Improve air quality",
+              "Are too expensive",
+              "Supply neighbourhood markets",
+              "Reduce urban heat"
+            ],
+            "correctIndex": 1,
+            "explanation": "The professor notes critics argue they are too expensive.",
+            "skillArea": "Listening",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-listen-005",
+            "question": "Which claim is supported as more than a decorative benefit?",
+            "options": [
+              "They never need watering",
+              "They grow food for local markets",
+              "They replace all parks",
+              "They eliminate traffic"
+            ],
+            "correctIndex": 1,
+            "explanation": "The speaker says many grow vegetables for neighbourhood markets.",
+            "skillArea": "Listening",
+            "difficulty": "hard"
           }
         ]
       }
@@ -239,55 +267,385 @@
     ],
     "writing": [
       {
-        "id": "ielts-write-001",
-        "question": "For IELTS Writing Task 2, which introduction is most effective?",
-        "options": [
-          "Copy the question words exactly",
-          "Paraphrase the topic and state your position",
-          "Start with a personal anecdote only",
-          "List all arguments in the introduction"
-        ],
-        "correctIndex": 1,
-        "explanation": "A strong Task 2 intro paraphrases the prompt and presents a clear thesis.",
-        "skillArea": "Writing",
-        "difficulty": "medium"
+        "id": "write-task1-intro",
+        "title": "IELTS Academic Writing — Task 1 overview",
+        "passage": "IELTS Academic Writing has two tasks.\n\nTask 1 — Report (at least 150 words)\nYou describe visual information objectively: trends, comparisons, proportions, or a process/map. Do not give personal opinions.\n\nMain Task 1 types:\n• Line graph — change over time\n• Bar chart — compare categories\n• Pie chart — proportions/percentages\n• Table — numerical data\n• Map / process diagram — place change or how something works\n• Mixed — two visuals together (e.g. bar + pie)\n\nTask 2 — Essay (at least 250 words)\nThis carries more weight for your Writing score. Common types: opinion, discussion, advantages/disadvantages, problem/solution, and two-part questions.",
+        "questions": [
+          {
+            "id": "ielts-write-001",
+            "question": "In Academic Writing Task 1, the minimum word count is normally:",
+            "options": ["100 words", "150 words", "200 words", "250 words"],
+            "correctIndex": 1,
+            "explanation": "Task 1 requires at least 150 words; Task 2 requires at least 250.",
+            "skillArea": "Task 1 Overview",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-write-002",
+            "question": "Which statement about Task 1 is correct?",
+            "options": [
+              "You should argue your personal opinion strongly",
+              "You describe and summarise visual information objectively",
+              "You must invent data if the chart is unclear",
+              "You only need an introduction paragraph"
+            ],
+            "correctIndex": 1,
+            "explanation": "Task 1 is a report: select key features, summarise, and compare — without personal opinion.",
+            "skillArea": "Task 1 Overview",
+            "difficulty": "easy"
+          }
+        ]
       },
       {
-        "id": "ielts-write-002",
-        "question": "In Task 1 (graph description), you should NOT:",
-        "options": [
-          "Compare key trends",
-          "Give an overview",
-          "State your personal opinion",
-          "Use precise data where relevant"
-        ],
-        "correctIndex": 2,
-        "explanation": "Task 1 is objective — opinions are not required or appropriate.",
-        "skillArea": "Writing",
-        "difficulty": "easy"
+        "id": "write-task1-line",
+        "title": "Task 1 — Line graph",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe line graph below shows the population (in millions) of City A and City B from 2000 to 2020.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\nData (millions):\nYear | City A | City B\n2000 | 2.1 | 3.4\n2005 | 2.4 | 3.5\n2010 | 3.0 | 3.6\n2015 | 3.8 | 3.7\n2020 | 4.5 | 3.9\n\nTip: Line graphs usually show change over time — describe overall trends, peaks/lows, and compare lines.",
+        "questions": [
+          {
+            "id": "ielts-write-003",
+            "question": "This Task 1 prompt is mainly which visual type?",
+            "options": ["Pie chart", "Line graph", "Process diagram", "Map"],
+            "correctIndex": 1,
+            "explanation": "Values are tracked across years for two cities — classic line-graph change over time.",
+            "skillArea": "Task 1 Line Graph",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-write-004",
+            "question": "Which overview best matches the data?",
+            "options": [
+              "Both cities declined steadily from 2000 to 2020",
+              "City A grew sharply and overtook City B after 2015, while City B rose only slightly",
+              "City B always remained much smaller than City A",
+              "The populations were identical in every year"
+            ],
+            "correctIndex": 1,
+            "explanation": "City A rises from 2.1 to 4.5 and surpasses City B (3.7→3.9) around 2015–2020.",
+            "skillArea": "Task 1 Line Graph",
+            "difficulty": "medium"
+          }
+        ]
       },
       {
-        "id": "ielts-write-003",
-        "question": "Which linking phrase best shows contrast between two ideas?",
-        "options": ["Furthermore", "On the other hand", "In addition", "Similarly"],
-        "correctIndex": 1,
-        "explanation": "'On the other hand' signals a contrasting point.",
-        "skillArea": "Writing",
-        "difficulty": "easy"
+        "id": "write-task1-bar",
+        "title": "Task 1 — Bar chart",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe bar chart shows the number of international students (thousands) at four universities in 2022.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\nData (thousands):\nUniversity North — 12\nUniversity East — 8\nUniversity South — 15\nUniversity West — 6\n\nTip: Bar charts compare categories. Highlight the highest/lowest and group similar figures.",
+        "questions": [
+          {
+            "id": "ielts-write-005",
+            "question": "What is the main purpose of this Task 1?",
+            "options": [
+              "Explain a manufacturing process",
+              "Compare student numbers across universities",
+              "Describe how a town map changed",
+              "Argue whether universities should expand"
+            ],
+            "correctIndex": 1,
+            "explanation": "A bar chart compares categories (universities) at a point in time.",
+            "skillArea": "Task 1 Bar Chart",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-write-006",
+            "question": "Which detail is most important to report?",
+            "options": [
+              "Your opinion about which university is best",
+              "That South had the most students and West the fewest",
+              "The colour of each bar",
+              "A long list of every possible calculation"
+            ],
+            "correctIndex": 1,
+            "explanation": "Select key features: extremes and clear comparisons, not opinions or every minor detail.",
+            "skillArea": "Task 1 Bar Chart",
+            "difficulty": "medium"
+          }
+        ]
       },
       {
-        "id": "ielts-write-004",
-        "question": "A body paragraph should ideally:",
-        "options": [
-          "Introduce multiple unrelated topics",
-          "Present one main idea with support and examples",
-          "Repeat the introduction verbatim",
-          "Avoid any examples"
-        ],
-        "correctIndex": 1,
-        "explanation": "Each body paragraph develops one central idea with evidence.",
-        "skillArea": "Writing",
-        "difficulty": "medium"
+        "id": "write-task1-pie",
+        "title": "Task 1 — Pie chart",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe pie chart shows household spending in Country X in 2023.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\nSpending share:\nHousing — 35%\nFood — 20%\nTransport — 15%\nEducation — 10%\nHealthcare — 8%\nOther — 12%\n\nTip: Pie charts show proportions. Mention the largest/smallest slices and compare major categories.",
+        "questions": [
+          {
+            "id": "ielts-write-007",
+            "question": "Pie charts are mainly used to show:",
+            "options": [
+              "Change over a long timeline only",
+              "Proportions or percentages of a whole",
+              "Step-by-step manufacturing stages",
+              "Directions on a street map"
+            ],
+            "correctIndex": 1,
+            "explanation": "Pie charts divide a whole into percentage shares.",
+            "skillArea": "Task 1 Pie Chart",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-write-008",
+            "question": "Which sentence is appropriate for this Task 1?",
+            "options": [
+              "I believe housing costs are unfair in Country X",
+              "Housing accounted for the largest share of spending at 35%",
+              "People should spend less on transport",
+              "The government must cut education budgets"
+            ],
+            "correctIndex": 1,
+            "explanation": "Task 1 language stays factual and objective.",
+            "skillArea": "Task 1 Pie Chart",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "write-task1-table",
+        "title": "Task 1 — Table",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe table below shows average monthly salaries (USD) in five countries in 2010 and 2020.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\nCountry | 2010 | 2020\nA | 1,200 | 1,800\nB | 2,500 | 2,700\nC | 900 | 1,500\nD | 3,000 | 3,100\nE | 1,600 | 2,400\n\nTip: Tables pack numbers. Compare biggest changes and highest/lowest values; do not copy every cell.",
+        "questions": [
+          {
+            "id": "ielts-write-009",
+            "question": "For table tasks, the best strategy is to:",
+            "options": [
+              "List every number in order without comparison",
+              "Select standout figures and compare key changes",
+              "Ignore the years and invent a story",
+              "Write only about one country"
+            ],
+            "correctIndex": 1,
+            "explanation": "Examiners reward clear selection and comparison of main features.",
+            "skillArea": "Task 1 Table",
+            "difficulty": "medium"
+          },
+          {
+            "id": "ielts-write-010",
+            "question": "Which country shows the largest increase from 2010 to 2020?",
+            "options": ["Country B (+200)", "Country D (+100)", "Country E (+800)", "Country A (+600)"],
+            "correctIndex": 2,
+            "explanation": "E rises by 800 (1,600→2,400), more than A (+600) or the others.",
+            "skillArea": "Task 1 Table",
+            "difficulty": "hard"
+          }
+        ]
+      },
+      {
+        "id": "write-task1-process",
+        "title": "Task 1 — Process diagram",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe diagram shows how recycled paper is produced.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\nProcess stages:\n1. Collect used paper\n2. Sort and remove contaminants\n3. Shred and mix with water to make pulp\n4. Clean and de-ink the pulp\n5. Roll and dry into new paper sheets\n6. Package for delivery\n\nTip: Use sequence language (first, then, next, finally). Focus on stages, not opinions.",
+        "questions": [
+          {
+            "id": "ielts-write-011",
+            "question": "A process diagram Task 1 mainly requires you to:",
+            "options": [
+              "Give your opinion on recycling policy",
+              "Explain stages in a clear sequence",
+              "Compare five countries' salaries",
+              "Describe population change over decades"
+            ],
+            "correctIndex": 1,
+            "explanation": "Process tasks ask you to report how something works, step by step.",
+            "skillArea": "Task 1 Process",
+            "difficulty": "easy"
+          }
+        ]
+      },
+      {
+        "id": "write-task1-map",
+        "title": "Task 1 — Map",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe maps show a coastal town in 1995 and 2020.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\n1995: fishing harbour, small market, residential houses east of the harbour, farmland to the north.\n2020: marina and tourist hotels replace the harbour area; shopping centre where the market was; new road and bus station; farmland converted to a park and sports complex.\n\nTip: Describe location changes with clear referencing (north/south, replaced by, expanded).",
+        "questions": [
+          {
+            "id": "ielts-write-012",
+            "question": "Map tasks usually ask you to:",
+            "options": [
+              "Discuss whether tourism is good or bad",
+              "Describe how a place changed between two times",
+              "Write a 250-word opinion essay",
+              "Only list percentages from a pie chart"
+            ],
+            "correctIndex": 1,
+            "explanation": "Map questions compare layouts across time (or propose a development).",
+            "skillArea": "Task 1 Map",
+            "difficulty": "easy"
+          }
+        ]
+      },
+      {
+        "id": "write-task1-mixed",
+        "title": "Task 1 — Mixed visuals",
+        "passage": "You should spend about 20 minutes on this task.\n\nThe charts below show energy use in Country Y.\n\nChart 1 (bar): electricity generation by source in 2020 — Coal 40%, Gas 25%, Renewables 20%, Nuclear 15% (shown as bars of output units).\nChart 2 (pie): household electricity use — Heating 30%, Appliances 25%, Lighting 15%, Cooling 20%, Other 10%.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.\n\nTip: For mixed questions, give an overview covering both visuals, then one paragraph per chart (or linked comparisons).",
+        "questions": [
+          {
+            "id": "ielts-write-013",
+            "question": "When Task 1 includes two charts, you should:",
+            "options": [
+              "Ignore the smaller chart",
+              "Summarise key features from both and make relevant comparisons",
+              "Write two unrelated essays",
+              "Only describe colours and titles"
+            ],
+            "correctIndex": 1,
+            "explanation": "Mixed tasks expect coverage of both sources with a clear overview.",
+            "skillArea": "Task 1 Mixed",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "write-task2-intro",
+        "title": "IELTS Academic Writing — Task 2 overview",
+        "passage": "Task 2 — Essay (at least 250 words)\nThis task has more impact on your Writing band score than Task 1.\n\nCommon Academic Task 2 question types:\n1. Opinion (Agree / Disagree)\n2. Discussion (Discuss both views + your opinion)\n3. Advantages / Disadvantages\n4. Problem / Solution (or Cause / Solution)\n5. Two-part / Direct questions (answer both parts)\n\nAlways: paraphrase the question, plan 2–3 body paragraphs, support ideas with reasons/examples, and write a clear conclusion.",
+        "questions": [
+          {
+            "id": "ielts-write-014",
+            "question": "Task 2 essays normally require at least:",
+            "options": ["150 words", "200 words", "250 words", "400 words"],
+            "correctIndex": 2,
+            "explanation": "Academic Task 2 has a 250-word minimum.",
+            "skillArea": "Task 2 Overview",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-write-015",
+            "question": "Which Task 2 type usually asks you to discuss both sides and give your own view?",
+            "options": [
+              "Process diagram",
+              "Discussion essay",
+              "Line graph report",
+              "Map comparison"
+            ],
+            "correctIndex": 1,
+            "explanation": "Discussion prompts present two views and typically ask for your opinion as well.",
+            "skillArea": "Task 2 Overview",
+            "difficulty": "easy"
+          }
+        ]
+      },
+      {
+        "id": "write-task2-opinion",
+        "title": "Task 2 — Opinion (Agree / Disagree)",
+        "passage": "You should spend about 40 minutes on this task.\n\nWrite about the following topic:\n\nSome people believe that unpaid community service should be a compulsory part of high school programmes.\nTo what extent do you agree or disagree?\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words.\n\nApproach: State your position clearly in the introduction, develop 2 supporting paragraphs, then conclude by restating your view.",
+        "questions": [
+          {
+            "id": "ielts-write-016",
+            "question": "This prompt is which Task 2 type?",
+            "options": [
+              "Problem / solution",
+              "Opinion (agree / disagree)",
+              "Advantages only",
+              "Task 1 table"
+            ],
+            "correctIndex": 1,
+            "explanation": "'To what extent do you agree or disagree?' signals an opinion essay.",
+            "skillArea": "Task 2 Opinion",
+            "difficulty": "easy"
+          },
+          {
+            "id": "ielts-write-017",
+            "question": "The most effective introduction should:",
+            "options": [
+              "Copy the question word-for-word",
+              "Paraphrase the topic and state your position",
+              "Tell a long unrelated childhood story",
+              "List every idea without a thesis"
+            ],
+            "correctIndex": 1,
+            "explanation": "Strong intros paraphrase and present a clear thesis/position.",
+            "skillArea": "Task 2 Opinion",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "write-task2-discussion",
+        "title": "Task 2 — Discussion",
+        "passage": "You should spend about 40 minutes on this task.\n\nWrite about the following topic:\n\nSome people think the best way to reduce crime is longer prison sentences. Others believe educating people to be better citizens is more effective.\nDiscuss both these views and give your own opinion.\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words.",
+        "questions": [
+          {
+            "id": "ielts-write-018",
+            "question": "In a discussion essay you should mainly:",
+            "options": [
+              "Only attack one view and ignore the other",
+              "Explain both views fairly, then give your opinion",
+              "Describe a pie chart",
+              "Write fewer than 150 words"
+            ],
+            "correctIndex": 1,
+            "explanation": "Cover both sides with balance, then state and justify your view.",
+            "skillArea": "Task 2 Discussion",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "write-task2-advantages",
+        "title": "Task 2 — Advantages / Disadvantages",
+        "passage": "You should spend about 40 minutes on this task.\n\nWrite about the following topic:\n\nIn many cities, working from home has become more common.\nDo the advantages of this development outweigh the disadvantages?\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words.",
+        "questions": [
+          {
+            "id": "ielts-write-019",
+            "question": "For 'outweigh' questions, a strong essay usually:",
+            "options": [
+              "Lists random ideas with no overall judgement",
+              "Compares benefits and drawbacks, then states which side is stronger",
+              "Avoids giving any conclusion",
+              "Only describes a process diagram"
+            ],
+            "correctIndex": 1,
+            "explanation": "You must weigh both sides and make a clear overall judgement.",
+            "skillArea": "Task 2 Advantages",
+            "difficulty": "medium"
+          }
+        ]
+      },
+      {
+        "id": "write-task2-problem",
+        "title": "Task 2 — Problem / Solution",
+        "passage": "You should spend about 40 minutes on this task.\n\nWrite about the following topic:\n\nIn many large cities, traffic congestion is becoming a serious problem.\nWhat are the main causes of this problem, and what solutions can you suggest?\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words.",
+        "questions": [
+          {
+            "id": "ielts-write-020",
+            "question": "This prompt requires you to:",
+            "options": [
+              "Only agree or disagree with one sentence",
+              "Explain causes and propose solutions",
+              "Summarise a bar chart in 150 words",
+              "Describe a map of a coastal town"
+            ],
+            "correctIndex": 1,
+            "explanation": "Cause/problem + solution is a standard two-part Task 2 structure.",
+            "skillArea": "Task 2 Problem Solution",
+            "difficulty": "easy"
+          }
+        ]
+      },
+      {
+        "id": "write-task2-twopart",
+        "title": "Task 2 — Two-part questions",
+        "passage": "You should spend about 40 minutes on this task.\n\nWrite about the following topic:\n\nIn some countries, young people are encouraged to work or travel for a year between finishing high school and starting university.\nWhat are the advantages and disadvantages for young people who decide to do this?\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words.\n\nNote: Some two-part prompts ask two direct questions (e.g. Why is this happening? Is it a positive or negative development?). Answer each part clearly in separate paragraphs.",
+        "questions": [
+          {
+            "id": "ielts-write-021",
+            "question": "If a Task 2 asks two direct questions, you should:",
+            "options": [
+              "Answer only the easier question",
+              "Address both questions clearly in the essay",
+              "Replace them with a different topic",
+              "Write a Task 1 overview only"
+            ],
+            "correctIndex": 1,
+            "explanation": "Leaving a question unanswered lowers Task Response.",
+            "skillArea": "Task 2 Two-part",
+            "difficulty": "medium"
+          },
+          {
+            "id": "ielts-write-022",
+            "question": "Which linking phrase best introduces a contrasting drawback?",
+            "options": ["Furthermore", "On the other hand", "In addition", "Similarly"],
+            "correctIndex": 1,
+            "explanation": "'On the other hand' signals contrast — useful in advantages/disadvantages essays.",
+            "skillArea": "Task 2 Cohesion",
+            "difficulty": "easy"
+          }
+        ]
       }
     ],
     "speaking": [
@@ -368,13 +726,15 @@
       "ielts-speak-001", "ielts-speak-002"
     ],
     "ielts-listening-1": [
-      "ielts-listen-001", "ielts-listen-002", "ielts-listen-003"
+      "ielts-listen-001", "ielts-listen-002", "ielts-listen-003",
+      "ielts-listen-004", "ielts-listen-005"
     ],
     "ielts-reading-1": [
       "ielts-read-001", "ielts-read-002", "ielts-read-003", "ielts-read-004", "ielts-gram-001"
     ],
     "ielts-writing-1": [
-      "ielts-write-001", "ielts-write-002", "ielts-write-003", "ielts-write-004"
+      "ielts-write-001", "ielts-write-002", "ielts-write-003", "ielts-write-005",
+      "ielts-write-007", "ielts-write-014", "ielts-write-016", "ielts-write-018"
     ],
     "ielts-speaking-1": [
       "ielts-speak-001", "ielts-speak-002", "ielts-speak-003", "ielts-speak-004"
